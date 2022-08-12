@@ -6,10 +6,10 @@ import TaskFilter from './component/taskFilter';
 import Task from './component/task';
 
 const tasks = [
-  { id: 1, description: '任務1', status: 'done' },
-  { id: 2, description: '任務2', status: 'ongoing' },
-  { id: 3, description: '任務3', status: 'done' },
-  { id: 4, description: '任務4', status: 'ongoing' },
+  { id: 1, description: '待辦事項1', status: 'done' },
+  { id: 2, description: '待辦事項2', status: 'ongoing' },
+  { id: 3, description: '待辦事項3', status: 'done' },
+  { id: 4, description: '待辦事項4', status: 'ongoing' },
 ];
 
 function App() {
@@ -41,7 +41,7 @@ function App() {
       ))}
 
       <div className="flex justify-center bg-[#D95550] py-10">
-        <div className="flex items-center justify-center w-[480px] bg-[#0000001A] text-white font-bold border-dashed rounded-md border-2 border-white opacity-70 py-3.5">
+        <div className="flex items-center justify-center w-[480px] bg-[#0000001A] text-white font-bold border-dashed rounded-md border-2 border-white opacity-60 hover:opacity-90 py-3.5">
           <IoMdAddCircle className="mr-2" />
           Add Task
         </div>
