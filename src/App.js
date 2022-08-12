@@ -2,8 +2,8 @@ import { GiTomato } from 'react-icons/gi';
 import { IoMdSettings } from 'react-icons/io';
 import { IoMdAddCircle } from 'react-icons/io';
 
-import TaskFilter from './component/taskFilter';
-import Task from './component/task';
+import TaskFilter from './components/taskFilter';
+import Task from './components/task';
 
 const tasks = [
   { id: 1, description: '待辦事項1', status: 'done' },
