@@ -1,10 +1,6 @@
 import { BsFillTrashFill } from 'react-icons/bs';
 import { FiEdit } from 'react-icons/fi';
-import {
-  MdOutlineDoneOutline,
-  MdDone,
-  MdFileDownloadDone,
-} from 'react-icons/md';
+import { MdDone } from 'react-icons/md';
 
 function Task(props) {
   const { id, description, status } = props;
@@ -32,11 +28,7 @@ function Task(props) {
               {description}
             </div>
           </div>
-          <div
-            className={`flex items-center ${
-              status === 'done' ? 'hidden' : 'text-gray-500'
-            }`}
-          >
+          <div className="flex items-center text-gray-500">
             <FiEdit size={18} className="mr-4 hover:text-gray-400" />
             <BsFillTrashFill size={18} className="hover:text-gray-400" />
           </div>
