@@ -1,5 +1,6 @@
-import React, { useCallback, useRef } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useForm } from 'react-hook-form';
 import { GiTomato } from 'react-icons/gi';
 import { IoMdSettings } from 'react-icons/io';
 import { IoMdAddCircle } from 'react-icons/io';
@@ -7,25 +8,30 @@ import TaskFilter from './components/taskFilter';
 import Task from './components/task';
 import { addTodo } from './actions';
 
-const tasks = [
-  { id: 1, description: '待辦事項1', done: true },
-  { id: 2, description: '待辦事項2', done: false },
-  { id: 3, description: '待辦事項3', done: true },
-  { id: 4, description: '待辦事項4', done: false },
-];
+// const tasks = [
+//   { id: 1, description: '待辦事項1', done: true },
+//   { id: 2, description: '待辦事項2', done: false },
+//   { id: 3, description: '待辦事項3', done: true },
+//   { id: 4, description: '待辦事項4', done: false },
+// ];
 
 function App() {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    getValues,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = (data) => console.log(data);
+
+  const tasks = useSelector((state) => state.addReducer);
+
   const dispatch = useDispatch();
-  const newTodoRef = useRef(null);
-  console.log('newTodoRef', newTodoRef.current);
 
-  const onAddTodo = useCallback(() => {
-    if (newTodoRef.current) {
-      dispatch(addTodo(newTodoRef.current.value));
-      newTodoRef.current.value = '';
-    }
-  }, [dispatch]);
-
+  console.log('getValues', getValues('todo'));
+  console.log('watch', watch('todo'));
   return (
     <>
       {/* 標題 */}
@@ -58,7 +64,7 @@ function App() {
       <div className="flex justify-center bg-[#D95550] py-10">
         <div
           onClick={() => {
-            dispatch(addTodo('任務'));
+            dispatch(addTodo(getValues('todo')));
           }}
           className="flex items-center justify-center w-[480px] bg-[#0000001A] text-white font-bold border-dashed rounded-md border-2 border-white opacity-60 hover:opacity-90 py-3.5 cursor-pointer"
         >
@@ -67,15 +73,18 @@ function App() {
         </div>
       </div>
       {/* 先擱置react-collapse */}
-      <form className="flex justify-center bg-[#D95550] py-10">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex justify-center bg-[#D95550] py-10"
+      >
         <input
-          type="text"
-          name="name"
-          ref={newTodoRef}
+          {...register('todo', { required: true })}
           placeholder="要新增什麼待辦事項？"
           className="flex items-center justify-center w-[480px] bg-gray-100 text-gray-700 font-bold rounded-md py-3.5 px-4"
         />
-        <input onClick={onAddTodo} type="submit" value="Submit" />
+        {/* {errors.todo && <span>This field is required</span>} */}
+
+        <input type="submit" value="送出" />
       </form>
     </>
   );
