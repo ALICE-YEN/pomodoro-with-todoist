@@ -1,9 +1,13 @@
+import { useSelector, useDispatch } from 'react-redux';
 import { BsFillTrashFill } from 'react-icons/bs';
 import { FiEdit } from 'react-icons/fi';
 import { MdDone } from 'react-icons/md';
+import { deleteTodo } from './actions';
 
 function Task(props) {
   const { id, description, done } = props;
+  const dispatch = useDispatch();
+
   return (
     <>
       <div className="flex items-center">
@@ -34,6 +38,7 @@ function Task(props) {
             <BsFillTrashFill
               size={18}
               className="hover:text-gray-400 cursor-pointer"
+              onClick={() => dispatch(deleteTodo())}
             />
           </div>
         </div>

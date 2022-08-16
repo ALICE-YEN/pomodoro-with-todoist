@@ -4,3 +4,9 @@ export const addTodo = (description) => {
     payload: description,
   };
 };
+
+export const deleteTodo = () => {
+  return {
+    type: 'DELETE',
+  };
+};
