@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { GiTomato } from 'react-icons/gi';
@@ -24,14 +24,17 @@ function App() {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => console.log(data);
+  const [addBox, setAddBox] = useState(false);
+
+  const onSubmit = (data) => {
+    dispatch(addTodo(data.todo));
+    setAddBox(false);
+  };
 
   const tasks = useSelector((state) => state.addReducer);
 
   const dispatch = useDispatch();
 
-  console.log('getValues', getValues('todo'));
-  console.log('watch', watch('todo'));
   return (
     <>
       {/* 標題 */}
@@ -61,31 +64,54 @@ function App() {
       ))}
 
       {/* 待辦事項增加器 */}
-      <div className="flex justify-center bg-[#D95550] py-10">
-        <div
-          onClick={() => {
-            dispatch(addTodo(getValues('todo')));
-          }}
-          className="flex items-center justify-center w-[480px] bg-[#0000001A] text-white font-bold border-dashed rounded-md border-2 border-white opacity-60 hover:opacity-90 py-3.5 cursor-pointer"
-        >
-          <IoMdAddCircle className="mr-2" />
-          Add Task
+      {addBox === false && (
+        <div className="flex justify-center bg-[#D95550] py-10">
+          <div
+            onClick={() => {
+              if (addBox) {
+                setAddBox(false);
+              } else {
+                setAddBox(true);
+              }
+            }}
+            className="flex items-center justify-center w-[480px] bg-[#0000001A] text-white font-bold border-dashed rounded-md border-2 border-white opacity-60 hover:opacity-90 py-3.5 cursor-pointer"
+          >
+            <IoMdAddCircle className="mr-2" />
+            Add Task
+          </div>
         </div>
-      </div>
-      {/* 先擱置react-collapse */}
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="flex justify-center bg-[#D95550] py-10"
-      >
-        <input
-          {...register('todo', { required: true })}
-          placeholder="要新增什麼待辦事項？"
-          className="flex items-center justify-center w-[480px] bg-gray-100 text-gray-700 font-bold rounded-md py-3.5 px-4"
-        />
-        {/* {errors.todo && <span>This field is required</span>} */}
+      )}
 
-        <input type="submit" value="送出" />
-      </form>
+      {/* 待辦事項增加 Box */}
+      {addBox === true && (
+        <div className="flex justify-center bg-[#D95550] py-10">
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="bg-gray-100 rounded-md py-3.5 px-4"
+          >
+            <input
+              {...register('todo', { required: true })}
+              placeholder="要新增什麼待辦事項？"
+              className="flex items-center justify-center w-[480px] text-gray-700 font-bold py-3.5 px-4 my-3.5"
+            />
+            {errors.todo && <span>This field is required</span>}
+
+            <div className="flex justify-end">
+              <div
+                onClick={() => setAddBox(false)}
+                className=" py-1.5 px-3 font-bold text-gray-700 cursor-pointer"
+              >
+                取消
+              </div>
+              <input
+                type="submit"
+                value="儲存"
+                className="py-1.5 px-3 ml-4 bg-gray-700 text-white font-bold rounded-md cursor-pointer"
+              />
+            </div>
+          </form>
+        </div>
+      )}
     </>
   );
 }
