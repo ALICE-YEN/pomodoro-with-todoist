@@ -16,22 +16,20 @@ import { addTodo } from './actions';
 // ];
 
 function App() {
+  const [addBox, setAddBox] = useState(false);
+
   const {
     register,
     handleSubmit,
-    watch,
-    getValues,
     formState: { errors },
   } = useForm();
-
-  const [addBox, setAddBox] = useState(false);
 
   const onSubmit = (data) => {
     dispatch(addTodo(data.todo));
     setAddBox(false);
   };
 
-  const tasks = useSelector((state) => state.addReducer);
+  const tasks = useSelector((state) => state.todoReducer);
 
   const dispatch = useDispatch();
 
@@ -63,7 +61,7 @@ function App() {
         </div>
       ))}
 
-      {/* 待辦事項增加器 */}
+      {/* 待辦事項增加按鈕 */}
       {addBox === false && (
         <div className="flex justify-center bg-[#D95550] py-10">
           <div
